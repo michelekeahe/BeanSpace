@@ -1,0 +1,51 @@
+<style>
+   
+   .pageHead{
+      display: flex;
+      justify-content: center;
+      padding-top: 5%;
+   }
+
+   .login{
+      justify-content: center;
+   }
+
+   .formField{
+      display:flex;
+      justify-content: flex-end;
+   }
+
+</style>
+
+{% extends "base.html" %} {% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="pageHead">
+   <form method="POST">
+      <h3 class="login">Login</h3>  
+      <div class="form-group">
+         <label class="formLabel" for="userName">Username</label>
+         <input
+            class="formField"
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+         />
+      </div>
+      <div class="form-group">
+         <label class="formLabel"for="password">Password</label>
+         <input
+            class="formField"
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+         />
+      </div>
+      <button type="submit" class="btn btn-primary" style="background-color: #A43838;">Login</button>
+   </form>
+</div>
+{% endblock %}}
