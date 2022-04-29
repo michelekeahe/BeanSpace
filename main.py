@@ -1,3 +1,6 @@
+# @author: Michele Kauahi
+# BeanSpace
+
 from website import create_app
 
 app = create_app()
