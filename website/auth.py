@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, url_for, redirect
-from flask_login import login_user, login_required
-from werkzeug.security import generate_password_hash
+from flask_login import current_user, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
 
@@ -9,13 +9,30 @@ auth = Blueprint('auth', __name__)
 # Login request form-- users cannot login without proper credentials already stored in database
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-   data = request.form # Form attribute of request
-   return render_template('login.html')
+   if request.method == 'POST':
+      username = request.form.get('username')
+      password = request.form.get('password')
+
+      # Check if user is in database
+      user = User.query.filter_by(username=username).first()
+      if user:
+         # If hashed password matches, login
+         if check_password_hash(user.password, password):
+            flash('Logged in successfully!', category='success')
+            login_user(user, remember=True)
+            return redirect(url_for('views.home'))
+         else:
+            flash('Incorrect password', category='error')
+      else:
+         flash('Username does not exist', category='error')
+   return render_template("login.html", user=current_user)
 
 # Logout only if a user is already logged in
-@auth.route('/logout')
+@auth.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
-   return 'logging out!'
+   logout_user()
+   return redirect(url_for('auth.login'))
 
 # Sign user up as long as the credentials don't conflict with what's inside database
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -48,5 +65,4 @@ def sign_up():
          flash("Account created succesfully!")
          return redirect(url_for('views.home')) # Redirect to home once account is made
 
-
-   return render_template('signup.html')
+   return render_template('signup.html', user=current_user)
