@@ -19,7 +19,7 @@ def home():
          new_sprout = Sprout(data=sprout, user_id=current_user.id)
          db.session.add(new_sprout)
          db.session.commit()
-         flash('Sprout added!', category='success')
+         flash('Sprout added!', category='info')
    return render_template('home.html', user=current_user)
 
 @views.route('/delete-sprout', methods=['POST'])
@@ -27,9 +27,12 @@ def delete_sprout():
    sprout = json.loads(request.data)
    sproutId = sprout['sproutId']
    sprout = Sprout.query.get(sproutId)
-   print(sprout)
    if sprout:
       if sprout.user_id == current_user.id:
          db.session.delete(sprout)
          db.session.commit()
    return jsonify({})
+
+@views.route('/profile', methods=['GET', 'POST'])
+def your_garden():
+   return render_template('profile.html', user=current_user)
