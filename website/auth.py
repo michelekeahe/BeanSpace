@@ -7,9 +7,11 @@ from . import db
 auth = Blueprint('auth', __name__)
 
 # Login request form-- users cannot login without proper credentials already stored in database
+# By default, only GET requests. (GET retrieves data) 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-   if request.method == 'POST':
+   # If POST request, update or create
+   if request.method == 'POST': 
       username = request.form.get('username')
       password = request.form.get('password')
 

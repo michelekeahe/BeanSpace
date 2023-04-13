@@ -7,7 +7,7 @@ from flask_login import LoginManager, login_manager
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
-# Declaring database & variables
+# Define database & variables
 db = SQLAlchemy()
 DB_HOST = 'localHost'
 DB_NAME = 'beanDB'
@@ -31,6 +31,7 @@ def create_app():
 
    from .models import User, Sprout
 
+   # Use this app with the database
    create_database(app)
 
    # Where to redirect if not logged in

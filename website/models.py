@@ -2,7 +2,7 @@ import email
 from email.policy import default
 from time import timezone
 from click import password_option
-from . import db
+from . import db # from this website package
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
