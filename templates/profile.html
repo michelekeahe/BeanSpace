@@ -18,9 +18,24 @@
 
 {% extends "base.html" %} {% block title %}Your Garden{% endblock %} 
 {% block content %}
-
 <div class="pageHead">
-   <h3>BeanSpace</h3>  
    <h2 align="center">Your Garden</h2>
+   <ul class="'list-group list-group-flush" id="sprouts">
+      {% for sprout in user.sprouts %}
+      <li class="list-group-item">
+         {{ sprout.data }}
+         <button type="button" class="close" onclick="deleteSprout({{ sprout.id }})">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </li>
+      {% endfor %}
+      <form method="post">
+         <textarea name="sprout" id="note" class="form-control"></textarea>
+         <br>
+         <div class="submitSprout">
+            <button type="submit" class="btn btn-primary" style="background-color: #A43838">Add sprout</button>
+         </div>
+      </form>
+   </ul>
 </div>
 {% endblock %}}

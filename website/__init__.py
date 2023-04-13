@@ -1,8 +1,11 @@
+# __init__.py implicitely executes file & mark directories
+
 from tabnanny import check
 from unicodedata import category
 from flask import Flask
 from flask_login import LoginManager, login_manager
 from flask_sqlalchemy import SQLAlchemy
+from os import path
 
 # Declaring database & variables
 db = SQLAlchemy()
@@ -13,18 +16,22 @@ DB_PASS = 'password'
 
 # Creating web application, registering blueprints & location for database
 def create_app():
-   app = Flask('__name__')
-   app.config['SECRET_KEY'] = 'mysecretkey'
+   app = Flask('__name__') #special variable that gets value depending on how script is executed
+   app.config['SECRET_KEY'] = 'mysecretkey' #In production, don't share
    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:password@localhost/{DB_NAME}' # Store in Database
    db.init_app(app) 
 
+   # import files
    from .views import views
    from .auth import auth
 
+   # Register blueprints & add prefix if want
    app.register_blueprint(views, url_prefix='/')
    app.register_blueprint(auth, url_prefix='/')
 
    from .models import User, Sprout
+
+   create_database(app)
 
    # Where to redirect if not logged in
    login_manager = LoginManager()
@@ -38,3 +45,8 @@ def create_app():
       return User.query.get(int(id))
 
    return app
+
+def create_database(app):
+    if not path.exists('website/' + DB_NAME):
+        db.create_all(app=app)
+        print('Created Database!')

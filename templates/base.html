@@ -20,16 +20,18 @@
    <style>
       @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 
+      .beanLogo {
+         display: flex;
+         align-items: center;
+      }
       body {
          font-family: 'Raleway', sans-serif;
       }
-
       h2 {
          color: #412C35;
          font-weight: 500;
          font-size: 30px
       }
-
       h3 {
          color: #412C35;
          font-weight: 600;
@@ -38,12 +40,11 @@
          display: flex;
          justify-content: flex-start;
       }
-      
       .navbar-light .navbar-nav .nav-link {
          color: whitesmoke;
      }
    </style>
-
+   
    <title>{% block title %}Hello Everyone!{% endblock %}</title>
 </head>
 
@@ -98,6 +99,10 @@
 
    <!-- Content for other pages -->
    <div class="pageContent">
+      <div class="beanLogo">
+         <h3>BeanSpace</h3>
+         <img src="https://www.scuolaconagnes.it/wp-content/uploads/2022/02/istockphoto-657964712-170667a.jpg" width="75px" height="75px">
+      </div>
       {% block content %}
       {% endblock %}
    </div>
@@ -121,6 +126,7 @@
    <!-- End Bootstrap -->
       
    <!-- import your own js -->
+   <!-- finds URL in static folder -->
    <script
       type="text/javascript"
       src="{{ url_for('static', filename='index.js') }}"
